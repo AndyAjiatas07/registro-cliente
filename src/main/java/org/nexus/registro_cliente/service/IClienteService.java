@@ -1,5 +1,7 @@
 package org.nexus.registro_cliente.service;
 import org.nexus.registro_cliente.entity.Cliente;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 public interface IClienteService {
