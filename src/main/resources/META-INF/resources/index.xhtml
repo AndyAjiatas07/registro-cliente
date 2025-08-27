@@ -76,20 +76,23 @@
                                 <f:setPropertyActionListener
                                         value="#{cliente}"
                                         target="#{indexController.clienteSeleccionado}"/>
+                                <p:resetInput target="formulario-modal:ventana-cliente"/>
 
                             </p:commandButton>
 
                             <p:commandButton value="Eliminar"
                                              icon="pi pi-trash"
                                              class="ui-button-danger"
-                                             action="#{indexController.eliminarCliente}"
-                                             update=":formulario-clientes:tabla-clientes :formulario-clientes:mensaje-emergente">
-                                <f:setPropertyActionListener value="#{cliente}"
-                                                             target="#{indexController.clienteSeleccionado}" />
+                                             process="@this"
+                                             oncomplete="PF('ventanaEliminarCliente').show()">
+                                <f:setPropertyActionListener
+                                        value="#{cliente}"
+                                        target="#{indexController.clienteSeleccionado}" />
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </div>
+<!--formulario modal-->
 
             </h:form>
             <h:form id="formulario-modal">
@@ -139,11 +142,28 @@
                                          actionListener="#{indexController.guardarCliente}"
                                          process="ventana-cliente @this"
                                          update=":formulario-clientes:tabla-clientes :formulario-clientes:mensaje-emergente"
-                                         oncomplete="PF('ventanaModalCliente').hide()"
-                        />
+                                         oncomplete="PF('ventanaModalCliente').hide()"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times"
+                        onClick="PF('ventanaModalCliente').hide()"
+                        class="ui-button-secondary" type="button"/>
                     </f:facet>
                 </p:dialog>
+        <p:confirmDialog
+        widgetVar="ventanaEliminarCliente"
+        showEffect="fade"
+        width="300"
+        message="Desea eliminar al cliente?"
+        header="Confirmar" severity="warn">
+            <p:commandButton value="Si" icon="pi pi-check"
+            process="@this"
+            actionListener="#{indexController.eliminarCliente}"
+            oncomplete="PF('ventanaEliminarCliente').hide()"/>
+            <p:commandButton value="No" icon="pi pi-times"
+                             onClick="PF('ventanaEliminarCliente').hide()"
+                             styleClass="ui-button-secondary"
+                             type="button"/>
 
+        </p:confirmDialog>
             </h:form>
             <!--            modal-->
         </div>
